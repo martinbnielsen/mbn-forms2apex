@@ -1,0 +1,14 @@
+projects /insert 4
+   name /nn
+   forms_count num,
+   block_count num,
+   field_count num,
+   program_unit_count num
+   estimate_hr num
+   imports 
+      file_type / nn vc20
+      name /nn vc500
+      content clob
+      
+
+

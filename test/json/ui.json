@@ -1,0 +1,120 @@
+{
+    "applicationDefaults": {
+      "name": "Application Defaults",
+      "tablePrefixes": "",
+      "description": "",
+      "tables": [
+        {
+          "table": "EMP",
+          "labelSingular": "Emp",
+          "labelPlural": "Emp",
+          "primaryDisplayColumn": "%",
+          "secondaryDisplayColumn": "%",
+          "primaryKeyColumn": "EMPNO",
+          "primaryParentTable": "%",
+          "description": ""
+        }
+      ],
+      "tableColumns": [
+        {
+          "table": "EMP",
+          "column": "COMM",
+          "label": "Comm",
+          "formControl": "numberField",
+          "includeOnForms": true,
+          "includeOnReports": true,
+          "formatMask": "99G999G999G999G999G999G999G999G999G999G990",
+          "required": false,
+          "help": "NUMBER"
+        }
+        ,
+        {
+          "table": "EMP",
+          "column": "DEPTNO",
+          "label": "Deptno",
+          "formControl": "numberField",
+          "includeOnForms": true,
+          "includeOnReports": false,
+          "required": false,
+          "help": "NUMBER"
+        }
+        ,
+        {
+          "table": "EMP",
+          "column": "EMPNO",
+          "label": "Empno",
+          "formControl": "hidden",
+          "includeOnForms": false,
+          "includeOnReports": false,
+          "required": true,
+          "help": "NUMBER"
+        }
+        ,
+        {
+          "table": "EMP",
+          "column": "ENAME",
+          "label": "Navnet",
+          "formControl": "text",
+          "includeOnForms": true,
+          "includeOnReports": true,
+          "required": false,
+          "help": "VARCHAR2"
+        }
+        ,
+        {
+          "table": "EMP",
+          "column": "HIREDATE",
+          "label": "Hiredate",
+          "formControl": "datePicker",
+          "includeOnForms": true,
+          "includeOnReports": true,
+          "formatMask": "SINCE",
+          "required": false,
+          "help": "DATE"
+        }
+        ,
+        {
+          "table": "EMP",
+          "column": "JOB",
+          "label": "Job",
+          "formControl": "text",
+          "includeOnForms": true,
+          "includeOnReports": true,
+          "required": false,
+          "help": "VARCHAR2"
+        }
+        ,
+        {
+          "table": "EMP",
+          "column": "MGR",
+          "label": "Mgr",
+          "formControl": "numberField",
+          "includeOnForms": true,
+          "includeOnReports": false,
+          "required": false,
+          "help": "NUMBER"
+        }
+        ,
+        {
+          "table": "EMP",
+          "column": "SAL",
+          "label": "Sal",
+          "formControl": "numberField",
+          "includeOnForms": true,
+          "includeOnReports": true,
+          "formatMask": "99G999G999G999G999G999G999G999G999G999G990",
+          "required": false,
+          "help": "NUMBER"
+        }
+      ],
+      "components": {
+        "reports": {
+          "rowsPerPage": "50",
+          "paginationMethod": "nextPrevious",
+          "numericFormatMask": "99G999G999G999G999G999G999G999G999G999G990",
+          "dateFormatMask": "SINCE"
+        }
+      }
+    }
+    }
+    

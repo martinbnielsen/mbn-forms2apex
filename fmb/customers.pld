@@ -1,0 +1,6 @@
+
+
+PROCEDURE Hello IS
+BEGIN
+  NULL;
+END;
