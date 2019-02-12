@@ -1,4 +1,6 @@
-REM INSERTING into S_TITLE
+alter session set nls_date_format = 'DD-MON-YYYY';
+
+/* INSERTING into S_TITLE */
 Insert into S_TITLE (TITLE) values ('President');
 Insert into S_TITLE (TITLE) values ('Sales Representative');
 Insert into S_TITLE (TITLE) values ('Stock Clerk');
@@ -9,14 +11,14 @@ Insert into S_TITLE (TITLE) values ('VP, Sales');
 Insert into S_TITLE (TITLE) values ('Warehouse Manager');
 
 
-REM INSERTING into S_REGION
+/* INSERTING into S_REGION */
 Insert into S_REGION (ID,NAME) values (4,'Asia');
 Insert into S_REGION (ID,NAME) values (5,'Europe');
 Insert into S_REGION (ID,NAME) values (1,'North America');
 Insert into S_REGION (ID,NAME) values (2,'South America');
 Insert into S_REGION (ID,NAME) values (3,'Africa');
 
-REM INSERTING into S_DEPT
+/* INSERTING into S_DEPT */
 Insert into S_DEPT (ID,NAME,REGION_ID) values (10,'Finance',1);
 Insert into S_DEPT (ID,NAME,REGION_ID) values (41,'Operations',1);
 Insert into S_DEPT (ID,NAME,REGION_ID) values (42,'Operations',2);
@@ -30,7 +32,7 @@ Insert into S_DEPT (ID,NAME,REGION_ID) values (34,'Sales',4);
 Insert into S_DEPT (ID,NAME,REGION_ID) values (35,'Sales',5);
 Insert into S_DEPT (ID,NAME,REGION_ID) values (50,'Administration',1);
 
-REM INSERTING into S_EMP
+/* INSERTING into S_EMP */
 Insert into S_EMP (ID,LAST_NAME,FIRST_NAME,USERID,START_DATE,COMMENTS,MANAGER_ID,TITLE,DEPT_ID,SALARY,COMMISSION_PCT) values (1,'Velasquez','Carmen','cvelasqu',to_timestamp('05-SEP-85','DD-MON-RR HH.MI.SSXFF AM'),null,null,'President',50,2500,null);
 Insert into S_EMP (ID,LAST_NAME,FIRST_NAME,USERID,START_DATE,COMMENTS,MANAGER_ID,TITLE,DEPT_ID,SALARY,COMMISSION_PCT) values (2,'Ngao','LaDoris','lngao',to_timestamp('08-MAR-90','DD-MON-RR HH.MI.SSXFF AM'),null,1,'VP, Operations',41,1450,null);
 Insert into S_EMP (ID,LAST_NAME,FIRST_NAME,USERID,START_DATE,COMMENTS,MANAGER_ID,TITLE,DEPT_ID,SALARY,COMMISSION_PCT) values (3,'Nagayama','Midori','mnagayam',to_timestamp('17-JUN-91','DD-MON-RR HH.MI.SSXFF AM'),null,1,'VP, Sales',31,1400,null);
@@ -57,7 +59,7 @@ Insert into S_EMP (ID,LAST_NAME,FIRST_NAME,USERID,START_DATE,COMMENTS,MANAGER_ID
 Insert into S_EMP (ID,LAST_NAME,FIRST_NAME,USERID,START_DATE,COMMENTS,MANAGER_ID,TITLE,DEPT_ID,SALARY,COMMISSION_PCT) values (24,'Dancs','Bela','bdancs',to_timestamp('17-MAR-91','DD-MON-RR HH.MI.SSXFF AM'),null,10,'Stock Clerk',45,860,null);
 Insert into S_EMP (ID,LAST_NAME,FIRST_NAME,USERID,START_DATE,COMMENTS,MANAGER_ID,TITLE,DEPT_ID,SALARY,COMMISSION_PCT) values (25,'Schwartz','Sylvie','sschwart',to_timestamp('09-MAY-91','DD-MON-RR HH.MI.SSXFF AM'),null,10,'Stock Clerk',45,1100,null);
 
-REM INSERTING into S_CUSTOMER
+/* INSERTING into S_CUSTOMER */
 Insert into S_CUSTOMER (ID,NAME,PHONE,ADDRESS,CITY,STATE,COUNTRY,ZIP_CODE,CREDIT_RATING,SALES_REP_ID,REGION_ID,COMMENTS) values (201,'Unisport','55-2066101','72 Via Bahia','Sao Paolo',null,'Brazil',null,'EXCELLENT',12,2,'Customer usually orders large amounts and has a high order total.  This is okay as long as the credit rating remains excellent.');
 Insert into S_CUSTOMER (ID,NAME,PHONE,ADDRESS,CITY,STATE,COUNTRY,ZIP_CODE,CREDIT_RATING,SALES_REP_ID,REGION_ID,COMMENTS) values (202,'Simms Atheletics','81-20101','6741 Takashi Blvd.','Osaka',null,'Japan',null,'POOR',15,4,'Customer should always pay by cash until his credit rating improves.');
 Insert into S_CUSTOMER (ID,NAME,PHONE,ADDRESS,CITY,STATE,COUNTRY,ZIP_CODE,CREDIT_RATING,SALES_REP_ID,REGION_ID,COMMENTS) values (203,'Delhi Sports','91-10351','11368 Chanakya','New Delhi',null,'India',null,'GOOD',14,4,'Customer specializes in baseball equipment and is the largest retailer in India.');
@@ -74,14 +76,14 @@ Insert into S_CUSTOMER (ID,NAME,PHONE,ADDRESS,CITY,STATE,COUNTRY,ZIP_CODE,CREDIT
 Insert into S_CUSTOMER (ID,NAME,PHONE,ADDRESS,CITY,STATE,COUNTRY,ZIP_CODE,CREDIT_RATING,SALES_REP_ID,REGION_ID,COMMENTS) values (214,'Ojibway Retail','1-716-555-7171','415 Main Street','Buffalo','NY','USA','14202','POOR',11,1,null);
 Insert into S_CUSTOMER (ID,NAME,PHONE,ADDRESS,CITY,STATE,COUNTRY,ZIP_CODE,CREDIT_RATING,SALES_REP_ID,REGION_ID,COMMENTS) values (215,'Sporta Russia','7-3892456','6000 Yekatamina','Saint Petersburg',null,'Russia',null,'POOR',15,5,'This customer is very friendly, but has difficulty paying bills.  Insist upon cash.');
 
-REM INSERTING into S_WAREHOUSE
+/* INSERTING into S_WAREHOUSE */
 Insert into S_WAREHOUSE (ID,REGION_ID,ADDRESS,CITY,STATE,COUNTRY,ZIP_CODE,PHONE,MANAGER_ID) values (101,1,'283 King Street','Seattle','WA','USA',null,null,6);
 Insert into S_WAREHOUSE (ID,REGION_ID,ADDRESS,CITY,STATE,COUNTRY,ZIP_CODE,PHONE,MANAGER_ID) values (10501,5,'5 Modrany','Bratislava',null,'Czechozlovakia',null,null,10);
 Insert into S_WAREHOUSE (ID,REGION_ID,ADDRESS,CITY,STATE,COUNTRY,ZIP_CODE,PHONE,MANAGER_ID) values (201,2,'68 Via Centrale','Sao Paolo',null,'Brazil',null,null,7);
 Insert into S_WAREHOUSE (ID,REGION_ID,ADDRESS,CITY,STATE,COUNTRY,ZIP_CODE,PHONE,MANAGER_ID) values (301,3,'6921 King Way','Lagos',null,'Nigeria',null,null,8);
 Insert into S_WAREHOUSE (ID,REGION_ID,ADDRESS,CITY,STATE,COUNTRY,ZIP_CODE,PHONE,MANAGER_ID) values (401,4,'86 Chu Street','Hong Kong',null,null,null,null,9);
 
-REM INSERTING into S_ORD
+/* INSERTING into S_ORD */
     INSERT INTO S_ORD VALUES (1, 201, '05-MAR-2008', '09-MAR-2008', 11, 0, 'CASH', 'Y');
     INSERT INTO S_ORD VALUES (2, 201, '07-JUL-2008', '10-JUL-2008', 12, 0, 'CASH', 'Y');
     INSERT INTO S_ORD VALUES (3, 201, '08-JUL-2008', '10-JUL-2008', 12, 0, 'CASH', 'Y');
@@ -202,7 +204,7 @@ REM INSERTING into S_ORD
     INSERT INTO S_ORD VALUES (139, 215, '01-SEP-2008', '04-SEP-2008', 11, 0, 'CASH', 'Y');
     INSERT INTO S_ORD VALUES (140, 215, '18-SEP-2007', NULL, 11, 0, 'CREDIT', 'N');
 
-REM INSERTING into S_LONGTEXT
+/* INSERTING into S_LONGTEXT */
 Insert into S_LONGTEXT (ID,USE_FILENAME,FILENAME,TEXT) values (1017,'N',null,'Protective knee pads for any number of physical activities including bicycling and skating (4-wheel, in-line, and ice).  Also provide support for stress activities such as weight-lifting.  Velcro belts allow easy adjustment for any size and snugness of fit.  Hardened plastic shell comes in a variety of colors, so you can buy a pair to match every outfit.  Can also be worn at the beach to cover particularly ugly knees.');
 Insert into S_LONGTEXT (ID,USE_FILENAME,FILENAME,TEXT) values (1019,'N',null,'Protective elbow pads for any number of physical activities including bicycling and skating (4-wheel, in-line, and ice).  Also provide support for stress activities such as weight-lifting.  Velcro belts allow easy adjustment for any size and snugness of fit.  Hardened plastic shell comes in a variety of colors, so you can buy a pair to match every outfit.');
 Insert into S_LONGTEXT (ID,USE_FILENAME,FILENAME,TEXT) values (1037,null,null,null);
@@ -237,7 +239,7 @@ Insert into S_LONGTEXT (ID,USE_FILENAME,FILENAME,TEXT) values (929,null,null,nul
 Insert into S_LONGTEXT (ID,USE_FILENAME,FILENAME,TEXT) values (933,'N',null,'The widest, strongest, and knobbiest tires for mountain bike enthusiasts.  Guaranteed to withstand pummelling that will reduce most bicycles (except for the Himalayan) to scrap iron.  These tires can carry you to places where nobody would want to bicycle.  Sizes to fit all makes of mountain bike including wide and super wide rims.  Steel-banded radial models are also available by direct factory order.');
 Insert into S_LONGTEXT (ID,USE_FILENAME,FILENAME,TEXT) values (940,null,null,null);
 
-REM INSERTING into S_PRODUCT
+/* INSERTING into S_PRODUCT */
 Insert into S_PRODUCT (ID,NAME,SHORT_DESC,LONGTEXT_ID,IMAGE_ID,SUGGESTED_WHLSL_PRICE,WHLSL_UNITS) values (10011,'Bunny Boot','Beginner''s ski boot',518,1001,150,null);
 Insert into S_PRODUCT (ID,NAME,SHORT_DESC,LONGTEXT_ID,IMAGE_ID,SUGGESTED_WHLSL_PRICE,WHLSL_UNITS) values (10012,'Ace Ski Boot','Intermediate ski boot',519,1002,200,null);
 Insert into S_PRODUCT (ID,NAME,SHORT_DESC,LONGTEXT_ID,IMAGE_ID,SUGGESTED_WHLSL_PRICE,WHLSL_UNITS) values (10013,'Pro Ski Boot','Advanced ski boot',520,1003,410,null);
@@ -272,7 +274,7 @@ Insert into S_PRODUCT (ID,NAME,SHORT_DESC,LONGTEXT_ID,IMAGE_ID,SUGGESTED_WHLSL_P
 Insert into S_PRODUCT (ID,NAME,SHORT_DESC,LONGTEXT_ID,IMAGE_ID,SUGGESTED_WHLSL_PRICE,WHLSL_UNITS) values (50532,'Puckett Bat','Thirty-two inch bat',1039,1482,47,null);
 Insert into S_PRODUCT (ID,NAME,SHORT_DESC,LONGTEXT_ID,IMAGE_ID,SUGGESTED_WHLSL_PRICE,WHLSL_UNITS) values (50536,'Winfield Bat','Thirty-six inch bat',1043,1486,50,null);
 
-REM INSERTING into S_INVENTORY
+/* INSERTING into S_INVENTORY */
 Insert into S_INVENTORY (PRODUCT_ID,WAREHOUSE_ID,AMOUNT_IN_STOCK,REORDER_POINT,MAX_IN_STOCK,OUT_OF_STOCK_EXPLANATION,RESTOCK_DATE) values (10011,101,650,625,1100,null,null);
 Insert into S_INVENTORY (PRODUCT_ID,WAREHOUSE_ID,AMOUNT_IN_STOCK,REORDER_POINT,MAX_IN_STOCK,OUT_OF_STOCK_EXPLANATION,RESTOCK_DATE) values (10012,101,600,560,1000,null,null);
 Insert into S_INVENTORY (PRODUCT_ID,WAREHOUSE_ID,AMOUNT_IN_STOCK,REORDER_POINT,MAX_IN_STOCK,OUT_OF_STOCK_EXPLANATION,RESTOCK_DATE) values (10013,101,400,400,700,null,null);
@@ -388,7 +390,7 @@ Insert into S_INVENTORY (PRODUCT_ID,WAREHOUSE_ID,AMOUNT_IN_STOCK,REORDER_POINT,M
 Insert into S_INVENTORY (PRODUCT_ID,WAREHOUSE_ID,AMOUNT_IN_STOCK,REORDER_POINT,MAX_IN_STOCK,OUT_OF_STOCK_EXPLANATION,RESTOCK_DATE) values (41080,10501,159,140,245,null,null);
 Insert into S_INVENTORY (PRODUCT_ID,WAREHOUSE_ID,AMOUNT_IN_STOCK,REORDER_POINT,MAX_IN_STOCK,OUT_OF_STOCK_EXPLANATION,RESTOCK_DATE) values (41100,10501,141,140,245,null,null);
 
-REM INSERTING into S_ITEM
+/* INSERTING into S_ITEM */
 Insert into S_ITEM (ORD_ID,ITEM_ID,PRODUCT_ID,PRICE,QUANTITY,QUANTITY_SHIPPED) values (1,1,41100,11.25,1,1);
 Insert into S_ITEM (ORD_ID,ITEM_ID,PRODUCT_ID,PRICE,QUANTITY,QUANTITY_SHIPPED) values (1,2,41050,6.25,1,1);
 Insert into S_ITEM (ORD_ID,ITEM_ID,PRODUCT_ID,PRICE,QUANTITY,QUANTITY_SHIPPED) values (2,1,41020,3,1,1);

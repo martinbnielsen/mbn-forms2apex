@@ -30,7 +30,7 @@ create or replace PACKAGE BODY f2a_files_pkg AS
         IS
       l_module_id f2a_modules.id%TYPE;
       l_block_id  f2a_modules.id%TYPE;
-      l_item_id   f2a_module_items.id%TYPE;
+      l_item_id   f2a_modules.id%TYPE;
     BEGIN
       -- Todo: handle upload of the same file
       
@@ -72,7 +72,7 @@ create or replace PACKAGE BODY f2a_files_pkg AS
                              ) xt
                 WHERE x.id = p_file_id) LOOP
                 
-                insert into f2a_modules (module_type, module_name, file_id, project_id, content, parent_module_id)
+                insert into f2a_modules (module_type, module_name, file_id, project_id, content, parent_id)
                 values ('LOV', l.name, p_file_id, p_project_id, l.query, l_module_id);
             END LOOP;
 
@@ -89,7 +89,7 @@ create or replace PACKAGE BODY f2a_files_pkg AS
                              ) xt
                 WHERE x.id = p_file_id) LOOP
                 
-                insert into f2a_modules (module_type, module_name, file_id, project_id, content, parent_module_id)
+                insert into f2a_modules (module_type, module_name, file_id, project_id, content, parent_id)
                 values ('BLOCK', b.name, p_file_id, p_project_id, b.datasource, l_module_id)
                 returning id into l_block_id;
                 
@@ -104,13 +104,30 @@ create or replace PACKAGE BODY f2a_files_pkg AS
                                prompt     VARCHAR2(100) PATH '@Prompt'
                                  ) xt) LOOP
                     
-                    insert into f2a_module_items (item_type, item_name, item_label, module_id)
-                    values ('ITEM', i.name, i.prompt, l_block_id)
+                    insert into f2a_modules (project_id, module_type, content_type, module_name, item_label, parent_id)
+                    values (p_project_id, 'ITEM', 'ITEM', i.name, i.prompt, l_block_id)
                     returning id into l_item_id;
                     
                 END LOOP;
             
                 logger.log('block', p_extra => b.block.getClobVal());
+            END LOOP;
+            
+            -- Program units
+            FOR p IN (
+                SELECT x.file_name, xt.*
+                FROM   f2a_files x,
+                       XMLTABLE('declare default element namespace "http://xmlns.oracle.com/Forms"; /Module/FormModule/ProgramUnit'
+                         PASSING XMLTYPE(x.content)
+                         COLUMNS 
+                           name                 VARCHAR2(100)   PATH '@Name',
+                           program_unit_type    VARCHAR2(1000)  PATH '@ProgramUnitType',
+                           Program_Unit_Text    VARCHAR2(32000) PATH '@ProgramUnitText'
+                             ) xt
+                WHERE x.id = p_file_id) LOOP
+                
+                insert into f2a_modules (module_type, module_name, content_type, file_id, project_id, content, parent_id)
+                values ('PROGRAM_UNIT', p.name, p.program_unit_type, p_file_id, p_project_id, REPLACE(p.Program_Unit_Text, '&#10;', chr(10)), l_module_id);
             END LOOP;
             
         END LOOP; -- Forms
@@ -151,7 +168,6 @@ create or replace PACKAGE BODY f2a_files_pkg AS
                 file_name,
                 content_type,
                 status_code,
-                description,
                 file_type,
                 content,
                 project_id
@@ -160,7 +176,6 @@ create or replace PACKAGE BODY f2a_files_pkg AS
                 f.c002,
                 'INSERTED',
                 NULL,
-                NULL,
                 blob_to_clob(f.blob001),
                 p_project_id
             ) RETURNING id INTO l_file_id;
@@ -168,7 +183,8 @@ create or replace PACKAGE BODY f2a_files_pkg AS
             COMMIT;
             l_job_id := 'f2a_process_file_' || f2a_job_s.nextval;
             dbms_scheduler.create_job(l_job_id,program_name => 'f2a_process_file');
-            dbms_scheduler.set_job_argument_value(l_job_id,1,TO_CHAR(l_file_id) );
+            dbms_scheduler.set_job_argument_value(l_job_id,1,TO_CHAR(p_project_id) );
+            dbms_scheduler.set_job_argument_value(l_job_id,2,TO_CHAR(l_file_id) );
             dbms_scheduler.enable(l_job_id);
             COMMIT;
         END LOOP;

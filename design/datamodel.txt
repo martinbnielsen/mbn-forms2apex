@@ -1,14 +1,39 @@
-projects /insert 4
-   name /nn
-   forms_count num,
-   block_count num,
-   field_count num,
-   program_unit_count num
+file_status_codes
+  code vc20 /pk
+  name vc100 /nn
+  css_class vc100
+projects
+   name /uk /nn
+   description vc2000
+   start_date d
+   deadline_date d
+   workspace_name vc30
+   short_name vc10
    estimate_hr num
-   imports 
+   files 
       file_type / nn vc20
-      name /nn vc500
+      file_name /nn vc500
+      content_type vc200
+      status_code /references file_status_codes
       content clob
-      
+  modules
+    module_type vc20 /nn
+    module_name vc100 /nn
+    content_type vc 30
+    content clob
+    title vc60
+    version_no vc20
+    query_based
+    parent_id /references modules
+    query_based
+    help_text vc2000
+    item_label vc200
+    item_length num
+    database_item vc30
+    lov_module_id /references module
+    migrate_flag vc1 /nn /default N /values Y,N
+    
+    
+    
 
 
