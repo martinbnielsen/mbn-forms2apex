@@ -1,5 +1,13 @@
 create or replace PACKAGE BODY f2a_files_pkg AS
 
+    -- Format proigram logic
+    FUNCTION format_logic(p_str IN VARCHAR2) Return VARCHAR2 IS
+    BEGIN
+      Return(
+        replace(p_str, '&#10;', chr(10))
+        );
+    END;
+    
     -- Convert BLOB to CLOB
     FUNCTION blob_to_clob (
         blob_in IN BLOB
@@ -60,6 +68,22 @@ create or replace PACKAGE BODY f2a_files_pkg AS
             values ('FORM', f.name, p_file_id, p_project_id, f.title, m.version)
             returning id into l_module_id;
         
+            -- Form Level triggers
+            FOR t IN (
+                SELECT x.file_name, xt.*
+                FROM   f2a_files x,
+                       XMLTABLE('declare default element namespace "http://xmlns.oracle.com/Forms"; /Module/FormModule/Trigger'
+                         PASSING XMLTYPE(x.content)
+                         COLUMNS 
+                           name      VARCHAR2(100)  PATH '@Name',
+                           trigger_text     VARCHAR2(1000) PATH '@TriggerText'
+                             ) xt
+                WHERE x.id = p_file_id) LOOP
+                
+                insert into f2a_modules (module_type, module_name, file_id, project_id, content, parent_id)
+                values ('TRIGGER', t.name, p_file_id, p_project_id, format_logic(t.trigger_text), l_module_id);
+            END LOOP;
+            
             -- LOVS
             FOR l IN (
                 SELECT x.file_name, xt.*
@@ -93,6 +117,23 @@ create or replace PACKAGE BODY f2a_files_pkg AS
                 values ('BLOCK', b.name, p_file_id, p_project_id, b.datasource, l_module_id)
                 returning id into l_block_id;
                 
+                -- Block level triggers
+                FOR t IN (
+                    SELECT xt.*
+                    FROM dual x,
+                           XMLTABLE('declare default element namespace "http://xmlns.oracle.com/Forms"; /Trigger'
+                             PASSING b.block
+                             COLUMNS 
+                               name             VARCHAR2(100) PATH '@Name',
+                               trigger_text     VARCHAR2(100) PATH '@TriggerText'
+                                 ) xt) LOOP
+                    
+                    insert into f2a_modules (project_id, module_type, module_name, item_label, parent_id)
+                    values (p_project_id, 'TRIGGER', t.name, format_logic(t.trigger_text), l_block_id)
+                    returning id into l_item_id;
+                    
+                END LOOP;
+                
                 -- Items
                 FOR i IN (
                     SELECT xt.*
@@ -101,12 +142,29 @@ create or replace PACKAGE BODY f2a_files_pkg AS
                              PASSING b.block
                              COLUMNS 
                                name       VARCHAR2(100) PATH '@Name',
-                               prompt     VARCHAR2(100) PATH '@Prompt'
+                               prompt     VARCHAR2(100) PATH '@Prompt',
+                               item             XMLTYPE PATH '*'
                                  ) xt) LOOP
                     
                     insert into f2a_modules (project_id, module_type, content_type, module_name, item_label, parent_id)
                     values (p_project_id, 'ITEM', 'ITEM', i.name, i.prompt, l_block_id)
                     returning id into l_item_id;
+                    
+                    -- Item level triggers
+                    FOR t IN (
+                        SELECT xt.*
+                        FROM dual x,
+                               XMLTABLE('declare default element namespace "http://xmlns.oracle.com/Forms"; /Item'
+                                 PASSING i.item
+                                 COLUMNS 
+                                   name         VARCHAR2(100) PATH '@Name',
+                                   trigger_text VARCHAR2(100) PATH '@TriggerText'
+                                     ) xt) LOOP
+                        
+                        insert into f2a_modules (project_id, module_type, module_name, item_label, parent_id)
+                        values (p_project_id, 'TRIGGER', t.name, format_logic(t.trigger_text), l_item_id);
+                                     
+                    END LOOP;
                     
                 END LOOP;
             
@@ -127,7 +185,7 @@ create or replace PACKAGE BODY f2a_files_pkg AS
                 WHERE x.id = p_file_id) LOOP
                 
                 insert into f2a_modules (module_type, module_name, content_type, file_id, project_id, content, parent_id)
-                values ('PROGRAM_UNIT', p.name, p.program_unit_type, p_file_id, p_project_id, REPLACE(p.Program_Unit_Text, '&#10;', chr(10)), l_module_id);
+                values ('PROGRAM_UNIT', p.name, p.program_unit_type, p_file_id, p_project_id, format_logic(p.Program_Unit_Text), l_module_id);
             END LOOP;
             
         END LOOP; -- Forms

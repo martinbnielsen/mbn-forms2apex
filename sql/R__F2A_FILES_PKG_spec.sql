@@ -1,5 +1,7 @@
 create or replace PACKAGE f2a_files_pkg AS
 
+    FUNCTION format_logic(p_str IN VARCHAR2) Return VARCHAR2;
+    
     FUNCTION blob_to_clob (
         blob_in IN BLOB
     ) RETURN CLOB;
