@@ -1,1 +1,100 @@
-test igen
+{
+    "application": {
+      "name": "",
+      "appShortDescription": "",
+      "appDescription": "",
+      "schema": "FORMS2APEX",
+      "features": {
+        "accessControl": false,
+        "activityReporting": false,
+        "configurationOptions": false,
+        "feedback": false,
+        "helpPages": false,
+        "themeSelection": false
+        },
+      "appearance": {
+        "themeStyle": "Vita",
+        "navigation": "SIDE",
+        "icon": "app-icon-bar-line-chart",
+        "iconBackgroundClass": "app-color-3",
+        "iconColorHEX": "#81BB5F"
+        },
+      "settings": {
+        "baseTablePrefix": "",
+        "primaryLanguage": "en",
+        "authentication": "Application Express"
+        },
+      "pages": [
+        {
+          "page": "1",
+          "pageType": "blank",
+          "pageName": "Home",
+          "pageIcon": "fa-home",
+          "pageIsHomePage": true,
+          "help": ""
+        }
+        ,
+        {
+          "page": "2",
+          "pageType": "form",
+          "pageName": "Form",
+          "pageIcon": "fa-forms",
+          "formImplementation": "formOnTable",
+          "table": "F2A_PROJECTS",
+          "help": "This is the help"
+        }
+        ,
+        {
+          "page": "3",
+          "pageType": "interactiveGrid",
+          "pageName": "Interactive Grid - Table",
+          "pageIcon": "fa-table-pointer",
+          "reportImplementation": "TABLE",
+          "interactiveGridIsEditable": "Y",
+          "table": "F2A_PROJECTS",
+          "help": ""
+        }
+        ,
+        {
+          "page": "4",
+          "pageType": "interactiveGrid",
+          "pageName": "Interactive Grid - SQL",
+          "pageIcon": "fa-address-book",
+          "reportImplementation": "SQL",
+          "interactiveGridIsEditable": "Y",
+          "query": "select * from f2a_projects",
+          "help": ""
+        }
+        ,
+        {
+          "page": "5",
+          "pageType": "interactiveReport",
+          "pageName": "Report - SQL",
+          "pageIcon": "fa-table",
+          "reportImplementation": "SQL",
+          "query": "select * from f2a_projects",
+          "help": ""
+        }
+        ],
+      "generalSettings": {
+        "builtWithLove": false,
+        "learnAppDefaults": false,
+        "version": "Release 1.0",
+        "logging": true,
+        "debugging": true
+        },
+      "globalizationSettings": {
+        "documentDirection": "left-to-right",
+        "dateFormat": "DD-MON-YYYY",
+        "dateTimeFormat": "DD-MON-YYYY HH24:MI",
+        "timestampFormat": "DD-MON-YYYY HH24:MI",
+        "timestampTimeZoneFormat": "DD-MON-YYYY HH24:MI"
+        },
+      "securitySettings": {
+        "deepLinking": true,
+        "maximumSessionSeconds": "",
+        "maximumSessionIdleSeconds": ""
+        }
+      }
+    }
+    

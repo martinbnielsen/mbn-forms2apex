@@ -16,4 +16,3 @@ os.system('flyway migrate')
 
 # Install logger
 os.system('cd tools/logger_3.0.0; echo exit | sql ' + props['flyway.user'] + '/' + props['flyway.password'] + '@' + props['flyway.url'] + ' @logger_install')
-

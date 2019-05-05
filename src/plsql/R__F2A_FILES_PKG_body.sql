@@ -180,7 +180,7 @@ create or replace PACKAGE BODY f2a_files_pkg AS
                          COLUMNS 
                            name                 VARCHAR2(100)   PATH '@Name',
                            program_unit_type    VARCHAR2(1000)  PATH '@ProgramUnitType',
-                           Program_Unit_Text    VARCHAR2(32000) PATH '@ProgramUnitText'
+                           Program_Unit_Text    VARCHAR2(4000) PATH '@ProgramUnitText'
                              ) xt
                 WHERE x.id = p_file_id) LOOP
                 
@@ -253,3 +253,4 @@ create or replace PACKAGE BODY f2a_files_pkg AS
     END process_files;
 
 END f2a_files_pkg;
+/
