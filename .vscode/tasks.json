@@ -1,7 +1,5 @@
 {
-    "version": "0.1.0",
-
-    "isShellCommand": true,
+    "version": "2.0.0",
 
     // Run sqlplus via a batch file
     "windows": {
@@ -16,10 +14,10 @@
 
     // first argument is the database connection string
     // second argument is the file to execute (ie the current file)
-    "args": ["forms2apex/forms2apex@//localhost:1521/XEPDB1", "@\"${file}\""],
-
-    // do not switch to the output pane automatically
-    "showOutput": "silent",
+    "args": [
+        "forms2apex/forms2apex@//localhost:1521/XEPDB1",
+        "@\"${file}\""
+    ],
 
     // use this to get any database errors (from user_errors view) listed in the "Problems" pane in VS Code
     "problemMatcher": {
@@ -36,5 +34,37 @@
             "loop": true
         }
       ]
-    }
+    },
+    "tasks": [
+        {
+            "label": "./_run_sqlcl.sh",
+            "type": "shell",
+            "args": [
+                "forms2apex/forms2apex@//localhost:1521/XEPDB1",
+                "@\"${file}\""
+            ],
+            "problemMatcher": {
+                "owner": "plsql",
+                "fileLocation": [
+                    "relative",
+                    "${fileDirname}"
+                ],
+                "pattern": [
+                    {
+                        "regexp": "(.*) (\\d*)/(\\d*) (.*?) (.*)",
+                        "severity": 1,
+                        "line": 2,
+                        "column": 3,
+                        "file": 4,
+                        "message": 5,
+                        "loop": true
+                    }
+                ]
+            },
+            "group": {
+                "_id": "build",
+                "isDefault": false
+            }
+        }
+    ]
 }
