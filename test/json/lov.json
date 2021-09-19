@@ -1,0 +1,183 @@
+{
+  "applicationDefaults": {
+    "name": "Application Defaults",
+    "tablePrefixes": "",
+    "description": "",
+    "listsOfValues": [
+      {
+        "name": "LOV_CUSTOMER",
+        "type": "dynamic",
+        "definition": "select ename as d, empno as r\nfrom emp\norder by 1"
+      }
+    ],
+    "tables": [
+      {
+        "table": "F2A_PROJECTS",
+        "labelSingular": "Projekt Singular",
+        "labelPlural": "Projekt Plural",
+        "primaryDisplayColumn": "%",
+        "secondaryDisplayColumn": "%",
+        "primaryKeyColumn": "ID",
+        "primaryParentTable": "%",
+        "description": ""
+      }
+    ],
+    "tableColumns": [
+      {
+        "table": "F2A_PROJECTS",
+        "column": "CREATED",
+        "label": "Created",
+        "formControl": "hidden",
+        "includeOnForms": false,
+        "includeOnReports": false,
+        "formatMask": "SINCE",
+        "required": true,
+        "help": "DATE"
+      }
+      ,
+      {
+        "table": "F2A_PROJECTS",
+        "column": "CREATED_BY",
+        "label": "Created By",
+        "formControl": "hidden",
+        "includeOnForms": false,
+        "includeOnReports": false,
+        "required": true,
+        "help": "VARCHAR2"
+      }
+      ,
+      {
+        "table": "F2A_PROJECTS",
+        "column": "DEADLINE_DATE",
+        "label": "Deadline Date",
+        "formControl": "datePicker",
+        "includeOnForms": true,
+        "includeOnReports": true,
+        "required": false,
+        "help": "DATE"
+      }
+      ,
+      {
+        "table": "F2A_PROJECTS",
+        "column": "DESCRIPTION",
+        "label": "Beskrivelse",
+        "formControl": "textArea",
+        "includeOnForms": true,
+        "includeOnReports": true,
+        "required": false,
+        "help": "VARCHAR2"
+      }
+      ,
+      {
+        "table": "F2A_PROJECTS",
+        "column": "ESTIMATE_HR",
+        "label": "Estimate Hr",
+        "formControl": "numberField",
+        "includeOnForms": true,
+        "includeOnReports": true,
+        "formatMask": "99G999G999G999G999G999G999G999G999G999G990",
+        "required": false,
+        "help": "NUMBER"
+      }
+      ,
+      {
+        "table": "F2A_PROJECTS",
+        "column": "ID",
+        "label": "ID",
+        "formControl": "hidden",
+        "includeOnForms": false,
+        "includeOnReports": false,
+        "required": true,
+        "help": "NUMBER"
+      }
+      ,
+      {
+        "table": "F2A_PROJECTS",
+        "column": "NAME",
+        "label": "Name",
+        "formControl": "text",
+        "includeOnForms": true,
+        "includeOnReports": true,
+        "required": true,
+        "help": "VARCHAR2"
+      }
+      ,
+      {
+        "table": "F2A_PROJECTS",
+        "column": "SECURITY_GROUP_ID",
+        "label": "Security Group ID",
+        "formControl": "selectList",
+        "includeOnForms": false,
+        "includeOnReports": false,
+        "listOfValues": "LOV_CUSTOMER",
+        "required": true,
+        "help": "NUMBER"
+      }
+      ,
+      {
+        "table": "F2A_PROJECTS",
+        "column": "SHORT_NAME",
+        "label": "Short Name",
+        "formControl": "text",
+        "includeOnForms": true,
+        "includeOnReports": true,
+        "required": false,
+        "help": "VARCHAR2"
+      }
+      ,
+      {
+        "table": "F2A_PROJECTS",
+        "column": "START_DATE",
+        "label": "Start Date",
+        "formControl": "datePicker",
+        "includeOnForms": true,
+        "includeOnReports": true,
+        "required": false,
+        "help": "DATE"
+      }
+      ,
+      {
+        "table": "F2A_PROJECTS",
+        "column": "UPDATED",
+        "label": "Updated",
+        "formControl": "hidden",
+        "includeOnForms": false,
+        "includeOnReports": false,
+        "formatMask": "SINCE",
+        "required": true,
+        "help": "DATE"
+      }
+      ,
+      {
+        "table": "F2A_PROJECTS",
+        "column": "UPDATED_BY",
+        "label": "Updated By",
+        "formControl": "hidden",
+        "includeOnForms": false,
+        "includeOnReports": false,
+        "required": true,
+        "help": "VARCHAR2"
+      }
+      ,
+      {
+        "table": "F2A_PROJECTS",
+        "column": "WORKSPACE_NAME",
+        "label": "Workspace Name",
+        "formControl": "text",
+        "includeOnForms": true,
+        "includeOnReports": true,
+        "required": false,
+        "help": "VARCHAR2"
+      }
+    ],
+    "components": {
+      "reports": {
+        "rowsPerPage": "50",
+        "paginationMethod": "nextPrevious",
+        "numericFormatMask": "99G999G999G999G999G999G999G999G999G999G990",
+        "dateFormatMask": "SINCE"
+      }
+    }
+  }
+  }
+  

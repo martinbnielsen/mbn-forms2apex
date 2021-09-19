@@ -80,6 +80,8 @@ create table f2a_modules (
     lov_module_id                  number
                                    constraint f2a_modules_lov_module_id_fk
                                    references f2a_modules (id) on delete cascade,
+    data_type                      varchar2(100),
+    required_flag                  varchar2(10) default on null 'false' not null,
     migrate_flag                   varchar2(1) default on null 'N' not null,
     created                        date not null,
     created_by                     varchar2(255) not null,
