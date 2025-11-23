@@ -72,7 +72,7 @@ create or replace PACKAGE BODY f2a_files_pkg AS
       -- Todo: handle upload of the same file
 
       -- For each module
-      FOR m IN (SELECT x.file_name, xt.*
+      FOR m IN (SELECT x.file_name, dbms_lob.getlength(x.content) size_b, xt.*
           FROM   f2a_files x,
                  XMLTABLE('declare default element namespace "http://xmlns.oracle.com/Forms"; /Module'
                    PASSING XMLTYPE(x.content)
@@ -93,8 +93,8 @@ create or replace PACKAGE BODY f2a_files_pkg AS
                            ) xt
               WHERE x.id = p_file_id) LOOP
 
-            insert into f2a_modules (module_type_id, module_name, file_id, project_id, title, version_no)
-            values (f2a_utils_pkg.get_module_type_id('FORM'), f.name, p_file_id, p_project_id, f.title, m.version)
+            insert into f2a_modules (module_type_id, module_name, file_id, project_id, title, version_no, size_b)
+            values (f2a_utils_pkg.get_module_type_id('FORM'), f.name, p_file_id, p_project_id, f.title, m.version, m.size_b)
             returning id into l_module_id;
 
             -- Form Level triggers
@@ -104,8 +104,8 @@ create or replace PACKAGE BODY f2a_files_pkg AS
                        XMLTABLE('declare default element namespace "http://xmlns.oracle.com/Forms"; /Module/FormModule/Trigger'
                          PASSING XMLTYPE(x.content)
                          COLUMNS 
-                           name      VARCHAR2(100)  PATH '@Name',
-                           trigger_text     VARCHAR2(1000) PATH '@TriggerText'
+                           name      VARCHAR2(1000)  PATH '@Name',
+                           trigger_text  CLOB PATH '@TriggerText'
                              ) xt
                 WHERE x.id = p_file_id) LOOP
 
@@ -153,11 +153,11 @@ create or replace PACKAGE BODY f2a_files_pkg AS
                            XMLTABLE('declare default element namespace "http://xmlns.oracle.com/Forms"; /Trigger'
                              PASSING b.block
                              COLUMNS 
-                               name             VARCHAR2(100) PATH '@Name',
-                               trigger_text     VARCHAR2(100) PATH '@TriggerText'
+                               name             VARCHAR2(1000) PATH '@Name',
+                               trigger_text     clob PATH '@TriggerText'
                                  ) xt) LOOP
 
-                    insert into f2a_modules (project_id, module_type_id, module_name, item_label, parent_id)
+                    insert into f2a_modules (project_id, module_type_id, module_name, content, parent_id)
                     values (p_project_id, f2a_utils_pkg.get_module_type_id('TRIGGER'), t.name, format_logic(t.trigger_text), l_block_id)
                     returning id into l_item_id;
 
@@ -320,6 +320,76 @@ create or replace PACKAGE BODY f2a_files_pkg AS
 
         apex_collection.truncate_collection('DROPZONE_UPLOAD');
     END process_files;
+
+  procedure set_module_stats (p_project_id in f2a_projects.id%type) is
+  begin
+
+    update f2a_modules m
+    set blocks# =  (select count(*)
+          from (select i.module_type
+            from f2a_modules_v i
+            start with i.parent_id = m.id
+            connect by prior i.id = i.parent_id
+            )
+            where module_type = 'BLOCK')
+    where project_id = p_project_id
+    and parent_id is null;
+
+    update f2a_modules m
+    set items# =  (select count(*)
+          from (select i.module_type
+            from f2a_modules_v i
+            start with i.parent_id = m.id
+            connect by prior i.id = i.parent_id
+            )
+            where module_type = 'ITEM')
+    where project_id = p_project_id
+    and parent_id is null;
+
+    update f2a_modules m
+    set triggers# =  (select count(*)
+          from (select i.module_type
+            from f2a_modules_v i
+            start with i.parent_id = m.id
+            connect by prior i.id = i.parent_id
+            )
+            where module_type = 'TRIGGER')
+    where project_id = p_project_id
+    and parent_id is null;
+
+    update f2a_modules m
+    set program_units# =  (select count(*)
+          from (select i.module_type
+            from f2a_modules_v i
+            start with i.parent_id = m.id
+            connect by prior i.id = i.parent_id
+            )
+            where module_type = 'PROGRAM_UNIT')
+    where project_id = p_project_id
+    and parent_id is null;
+
+    update f2a_modules m
+    set program_unit_lines# =  (select sum(lines)
+          from (select i.module_type, length(regexp_replace(regexp_replace(i.content,'^.*$','1',1,0,'m'),'\s','')) lines
+            from f2a_modules_v i
+            start with i.parent_id = m.id
+            connect by prior i.id = i.parent_id
+            )
+            where module_type = 'PROGRAM_UNIT')
+    where project_id = p_project_id
+    and parent_id is null;
+
+    update f2a_modules m
+    set trigger_lines# =  (select sum(lines)
+          from (select i.module_type, length(regexp_replace(regexp_replace(i.content,'^.*$','1',1,0,'m'),'\s','')) lines
+            from f2a_modules_v i
+            start with i.parent_id = m.id
+            connect by prior i.id = i.parent_id
+            )
+            where module_type = 'TRIGGER')
+    where project_id = p_project_id
+    and parent_id is null;    
+  end;
 
 END f2a_files_pkg;
 /

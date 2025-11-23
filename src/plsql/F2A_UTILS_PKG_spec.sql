@@ -6,5 +6,6 @@ PACKAGE F2A_UTILS_PKG AS
   
   function get_module_type_id (p_module_type in f2a_module_types.module_type%TYPE) return f2a_module_types.module_type_id%TYPE;
 
+
 END F2A_UTILS_PKG;
 /

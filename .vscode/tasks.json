@@ -15,7 +15,7 @@
     // first argument is the database connection string
     // second argument is the file to execute (ie the current file)
     "args": [
-        "forms2apex/forms2apex@//localhost:1521/XEPDB1",
+        "/@forms2apex",
         "@\"${file}\""
     ],
 
@@ -40,7 +40,7 @@
             "label": "./_run_sqlcl.sh",
             "type": "shell",
             "args": [
-                "forms2apex/forms2apex@//localhost:1521/XEPDB1",
+                "/@forms2apex",
                 "@\"${file}\""
             ],
             "problemMatcher": {
